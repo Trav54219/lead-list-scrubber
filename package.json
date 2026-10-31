@@ -1,0 +1,8 @@
+{
+  "name": "lead-list-scrubber",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": { "lead-list-scrubber": "cli.mjs" },
+  "scripts": { "test": "node --test" },
+  "license": "MIT"
+}

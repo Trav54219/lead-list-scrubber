@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lead list scrubber: remove do-not-contact, duplicates and role addresses before you upload</title>
+  <meta name="description" content="Drop in a lead list and your do-not-contact files. Get back a clean list and a removal report with the reason for every row: suppressed by email, domain or company, duplicate, invalid, info@, or over N per company. Runs in your browser.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Lead list scrubber</h1>
+      <p class="lede">Emailing a current customer, a lead you already contacted last month, or someone who unsubscribed costs you the reply and sometimes the domain. Drop in the new list and your do-not-contact files. You get back a clean list, plus every removed row with the reason it was removed.</p>
+    </header>
+
+    <section class="step">
+      <h2><span class="num">1</span> The list you're about to upload</h2>
+      <label class="drop" id="drop-main">
+        <input type="file" id="file-main" accept=".csv,text/csv" hidden>
+        <strong>Drop a CSV here</strong> or click to choose one
+        <span class="hint">Any export from Apollo, Clay, Smartlead, Instantly, HubSpot or a spreadsheet.</span>
+      </label>
+      <div id="main-info" hidden>
+        <p class="filename" id="main-name"></p>
+        <div class="cols">
+          <div><label for="col-email">Email column</label><select id="col-email"></select></div>
+          <div><label for="col-domain">Website or domain column</label><select id="col-domain"></select></div>
+          <div><label for="col-company">Company column</label><select id="col-company"></select></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step">
+      <h2><span class="num">2</span> Who not to contact</h2>
+      <p class="muted">Add as many as you have: customers, open deals, past campaigns, unsubscribes, competitors, partners. Each value is matched as an email, a domain, or a company name, depending on what it looks like.</p>
+      <label class="drop small" id="drop-supp">
+        <input type="file" id="file-supp" accept=".csv,.txt,text/csv,text/plain" multiple hidden>
+        <strong>Drop do-not-contact files</strong> or click to add them
+      </label>
+      <label for="paste-supp">Or paste emails, domains or company names, one per line</label>
+      <textarea id="paste-supp" rows="4" spellcheck="false" placeholder="jane@customer.com&#10;competitor.com&#10;Acme Holdings"></textarea>
+      <ul class="supp-list" id="supp-list"></ul>
+    </section>
+
+    <section class="step">
+      <h2><span class="num">3</span> Also remove</h2>
+      <div class="opts">
+        <label class="toggle"><input type="checkbox" id="opt-dedupe" checked> Duplicate emails (jane+x@ and Jane@ count as the same person)</label>
+        <label class="toggle"><input type="checkbox" id="opt-invalid" checked> Invalid or missing emails</label>
+        <label class="toggle"><input type="checkbox" id="opt-role" checked> Role addresses: info@, sales@, support@, admin@ ...</label>
+        <label class="toggle"><input type="checkbox" id="opt-free"> Personal email domains: gmail.com, yahoo.com, outlook.com ...</label>
+        <label class="toggle"><input type="checkbox" id="opt-sub" checked> Match subdomains: a do-not-contact on acme.com also covers mail.acme.com</label>
+        <label class="toggle inline">At most <input type="number" id="opt-cap" min="0" value="0"> people per company (0 for no limit)</label>
+      </div>
+    </section>
+
+    <section id="results" hidden>
+      <div class="big-counts" id="big-counts"></div>
+      <table class="reasons"><tbody id="reasons"></tbody></table>
+      <div class="actions">
+        <button type="button" id="dl-kept">Download clean list</button>
+        <button type="button" id="dl-removed" class="ghost">Download removed rows with reasons</button>
+      </div>
+      <h3>Removed rows</h3>
+      <div class="table-wrap"><table><thead id="rm-head"></thead><tbody id="rm-body"></tbody></table></div>
+      <p class="more" id="rm-more"></p>
+    </section>
+
+    <section class="notes">
+      <p class="privacy">Everything runs in your browser. Neither your list nor your do-not-contact files are uploaded anywhere.</p>
+    </section>
+
+    <footer>
+      Built by <a href="https://trav54219.github.io/gtm-engineering-portfolio/">Travis Heurtelou</a>, GTM engineer · <a href="https://github.com/Trav54219/lead-list-scrubber">Source on GitHub</a> · Also: <a href="https://trav54219.github.io/domain-health/">Domain health</a>, <a href="https://trav54219.github.io/lead-name-cleaner/">Lead name cleaner</a>, <a href="https://trav54219.github.io/cold-email-checker/">Cold email checker</a> · MIT
+    </footer>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
